@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "projeto_imdb"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "83ffbc2b-8b42-46b8-be74-ffd381b2f98a"
+  }
+}

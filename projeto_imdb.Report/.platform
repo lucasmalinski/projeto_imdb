@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "projeto_imdb"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "fb62c342-3ae0-4cca-9e8c-41b744465270"
+  }
+}
