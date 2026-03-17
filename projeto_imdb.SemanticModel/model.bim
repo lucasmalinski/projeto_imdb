@@ -282,19 +282,6 @@
             "summarizeBy": "none"
           },
           {
-            "name": "local_de_filmagem",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ],
-            "dataType": "string",
-            "lineageTag": "5ab3f76b-6d69-4b97-a941-732f4287c4f8",
-            "sourceColumn": "local_de_filmagem",
-            "summarizeBy": "none"
-          },
-          {
             "name": "produtora",
             "annotations": [
               {
@@ -347,9 +334,74 @@
             "lineageTag": "af8601e8-1f40-4194-aeee-4cba2820bae4",
             "sourceColumn": "oscar",
             "summarizeBy": "sum"
+          },
+          {
+            "name": "classificacao_duracao",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "26858abe-6f73-482e-b05d-896919db40c4",
+            "sourceColumn": "classificacao_duracao",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "local_de_filmagem",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "7ed5c5ce-ab5f-4162-abb7-8b95d845dd13",
+            "sourceColumn": "local_de_filmagem",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "status_de_critica",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "expression": "IF([nota_imdb] > 80, \"Excelente\", \"Comum\") ",
+            "isDataTypeInferred": true,
+            "lineageTag": "5d14af8e-9252-4012-a6e6-82eb0f934307",
+            "summarizeBy": "none",
+            "type": "calculated"
           }
         ],
         "lineageTag": "25b0ff42-aaf0-47a5-8fae-5770d7d81a15",
+        "measures": [
+          {
+            "name": "total_de_filmes",
+            "expression": "COUNTROWS(imdb_movies)",
+            "formatString": "0",
+            "lineageTag": "1f6b25a1-8ba3-4fbe-9d9d-f47e67dcc240"
+          },
+          {
+            "name": "media_nota_imdb_apartir_2000",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "expression": [
+              "CALCULATE(",
+              "    AVERAGE(imdb_movies[nota_imdb]),",
+              "    imdb_movies[ano] >= 2000",
+              "    )"
+            ],
+            "lineageTag": "030d7ea4-225b-4730-8fa8-bf49bc7637d9"
+          }
+        ],
         "partitions": [
           {
             "name": "imdb_movies",
@@ -409,9 +461,14 @@
                 "    #\"PASSO 15 - Colunas Renomeadas (DURAÇÃO)\" = Table.RenameColumns(#\"PASSO 15 - Colunas Reordenadas\",{{\"Personalizar\", \"duração\"}, {\"duração.1\", \"duração.horas\"}, {\"duração.2.2\", \"duração.minutos\"}}),",
                 "    #\"PASSO 15 - Colunas Removidas (duração.minutos e duração.horas)\" = Table.RemoveColumns(#\"PASSO 15 - Colunas Renomeadas (DURAÇÃO)\",{\"duração.horas\", \"duração.minutos\"}),",
                 "    #\"PASSO 15 - Tipo Alterado (duração -> int64)\" = Table.TransformColumnTypes(#\"PASSO 15 - Colunas Removidas (duração.minutos e duração.horas)\",{{\"duração\", Int64.Type}}),",
-                "    #\"PASSO 16 - Falsos nulos\" = Table.ReplaceValue(#\"PASSO 15 - Tipo Alterado (duração -> int64)\",\"\",null,Replacer.ReplaceValue,{\"local_de_filmagem\"})",
+                "    #\"PASSO 16 - Falsos nulos\" = Table.ReplaceValue(#\"PASSO 15 - Tipo Alterado (duração -> int64)\",\"\",null,Replacer.ReplaceValue,{\"local_de_filmagem\"}),",
+                "    #\"PASSO 17 - Coluna condicional - classificacao_duracao\" = Table.AddColumn(#\"PASSO 16 - Falsos nulos\", \"classificacao_duracao\", each if [duração] = null then null else if [duração] <= 65 then \"curta_metragem\" else if [duração] > 65 then \"longa_metragem\" else null),",
+                "    #\"PASSO 17 - Reoordenar classificacao_duracao\" = Table.ReorderColumns(#\"PASSO 17 - Coluna condicional - classificacao_duracao\",{\"id\", \"título\", \"ano\", \"duração\", \"classificacao_duracao\", \"nota_mpa\", \"nota_imdb\", \"voto\", \"orçamento\", \"receita_bruta_global\", \"receita_bruta_us_canada\", \"bruto_lançamento\", \"diretor\", \"roteirista\", \"celebridade\", \"gênero\", \"país de origem\", \"local_de_filmagem\", \"produtora\", \"idioma\", \"indicações\", \"oscar\"}),",
+                "    #\"PASSO 19 - Nova coluna condicional - local_de_filmagem2\" = Table.AddColumn(#\"PASSO 17 - Reoordenar classificacao_duracao\", \"Personalizar\", each if [local_de_filmagem] <> null then [local_de_filmagem] else \"Desconhecido\"),",
+                "    #\"PASSO 19 - Removida local_de_filmagem1\" = Table.RemoveColumns(#\"PASSO 19 - Nova coluna condicional - local_de_filmagem2\",{\"local_de_filmagem\"}),",
+                "    #\"PASSO 19 - Renomear [local_de_filmagem2 -> local_de_filmagem]\" = Table.RenameColumns(#\"PASSO 19 - Removida local_de_filmagem1\",{{\"Personalizar\", \"local_de_filmagem\"}})",
                 "in",
-                "    #\"PASSO 16 - Falsos nulos\""
+                "    #\"PASSO 19 - Renomear [local_de_filmagem2 -> local_de_filmagem]\""
               ],
               "type": "m"
             }
