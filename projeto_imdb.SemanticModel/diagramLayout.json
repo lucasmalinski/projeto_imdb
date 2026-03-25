@@ -10,19 +10,20 @@
       "nodes": [
         {
           "location": {
-            "x": 0,
+            "x": 266,
             "y": 0
           },
           "nodeIndex": "imdb_movies",
+          "nodeLineageTag": "25b0ff42-aaf0-47a5-8fae-5770d7d81a15",
           "size": {
-            "height": 300,
+            "height": 573,
             "width": 234
           },
           "zIndex": 0
         }
       ],
       "name": "Todas as tabelas",
-      "zoomValue": 100,
+      "zoomValue": 81.051175656984782,
       "pinKeyFieldsToTop": false,
       "showExtraHeaderInfo": false,
       "hideKeyFieldsWhenCollapsed": false,
