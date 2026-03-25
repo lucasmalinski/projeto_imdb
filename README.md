@@ -2,8 +2,11 @@
 
 > Análise exploratória e financeira de um dataset com mais de 33 mil filmes, focando em rentabilidade e correlação crítica.
 
-> Nota ⚠️: Disponível apenas dentre minha organização. 
-[Painel no Power BI Service](https://app.powerbi.com/links/wzaglYlxI3?ctid=dfb66dc4-3f3c-492c-991d-727dbd1c89d4&pbi_source=linkShare)
+> [Painel no Power BI Service](https://app.powerbi.com/links/wzaglYlxI3?ctid=dfb66dc4-3f3c-492c-991d-727dbd1c89d4&pbi_source=linkShare)
+
+>> Nota ⚠️: Disponível apenas dentre minha organização. 
+
+> ![Dashboard](/image.png)
 
 ---
 
